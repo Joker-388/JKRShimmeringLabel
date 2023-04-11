@@ -2,6 +2,9 @@
 
 ## 特征
 
+[![preview](https://github.com/Joker-388/JKRShimmeringLabel/blob/main/IMB_cekgDe.GIF)](https://www.jianshu.com/p/d81725130936?v=1681198297299)&nbsp;
+<br><br>
+
 1. 支持炫彩字
 2. 支持炫彩流动字
 3. 支持超出显示范围自动滚动文本
