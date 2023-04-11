@@ -20,6 +20,10 @@
 
 和原生UILabel一样用，只需要设置mask属性（一张彩色的图片遮罩）即可。
 
+### 原有项目的UILabel替换
+
+因为JKRAutoScrollLabel和JKRShimmeringLabel本身就是继承UILabel，可以直接把原有项目的UILabel类，替换成JKRAutoScrollLabel或JKRShimmeringLabel即可。
+
 ### JKRAutoScrollLabel
 
 超出范围自动滚动的Lable，需要设置attributedText，不能设置text。要同时支持流动彩字，设置mask即可。不需要彩色可以不设置mask，只有自动滚动的特性。
@@ -52,3 +56,5 @@ self.shimmerLabelForFrame.mask = [self maskImage];
 ### Xib使用
 
 控件支持xib和autolayout的场景，和UILabel一样设置约束即可，自动滚动和彩色动画，会自动支持。只需要正常配置约束，然后设置mask彩色遮罩即可。
+
+同时，因为JKRShimmeringLabel和JKRAutoScrollLabel本身就是继承UILabel的，所以UILabel在Xib中的文本自动填充宽度、约束优先级等等特性，也都可以正常使用。
