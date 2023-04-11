@@ -73,32 +73,72 @@
         self.colorBg.hidden = NO;
         self.colorBg.image = _mask;
         
-        self.innerLabel.frame = CGRectMake(self.frame.size.width * 2, 0, self.frame.size.width, self.frame.size.height);
-        self.colorBg.frame = CGRectMake(-self.frame.size.width * 2, 0, self.frame.size.width * 4, self.frame.size.height);
-        
-        [self.innerLabel.layer removeAllAnimations];
-        [self.colorBg.layer removeAllAnimations];
-        
-        {
-            CABasicAnimation * base = [CABasicAnimation animationWithKeyPath:@"position.x"];
-            base.beginTime = 0.f;
-            base.fillMode = kCAFillModeForwards;
-            base.removedOnCompletion = NO;
-            base.byValue = @(-self.frame.size.width * 2);
-            [base setDuration:2];
-            [base setRepeatCount:CGFLOAT_MAX];
-            [self.innerLabel.layer addAnimation:base forKey:@"123213123"];
+        BOOL isRTL = NO;
+        UIWindow *window = [UIApplication sharedApplication].delegate.window;
+        if (window) {
+            UISemanticContentAttribute attr = window.semanticContentAttribute;
+            UIUserInterfaceLayoutDirection dir = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
+            if (dir == UIUserInterfaceLayoutDirectionRightToLeft) {
+                isRTL = YES;
+            }
         }
-        {
-            CABasicAnimation * base = [CABasicAnimation animationWithKeyPath:@"position.x"];
-            base.beginTime = 0.f;
-            base.fillMode = kCAFillModeForwards;
-            base.removedOnCompletion = NO;
-            base.byValue = @(self.frame.size.width * 2);
-            [base setDuration:2];
-            [base setRepeatCount:CGFLOAT_MAX];
-            [self.colorBg.layer addAnimation:base forKey:@"123213123"];
+
+        if (isRTL) {
+            self.innerLabel.frame = CGRectMake(self.frame.size.width, 0, self.frame.size.width, self.frame.size.height);
+            self.colorBg.frame = CGRectMake(-self.frame.size.width, 0, self.frame.size.width * 4, self.frame.size.height);
+            
+            [self.innerLabel.layer removeAllAnimations];
+            [self.colorBg.layer removeAllAnimations];
+            
+            {
+                CABasicAnimation * base = [CABasicAnimation animationWithKeyPath:@"position.x"];
+                base.beginTime = 0.f;
+                base.fillMode = kCAFillModeForwards;
+                base.removedOnCompletion = NO;
+                base.byValue = @(self.frame.size.width * 2);
+                [base setDuration:2];
+                [base setRepeatCount:CGFLOAT_MAX];
+                [self.innerLabel.layer addAnimation:base forKey:@"123213123"];
+            }
+            {
+                CABasicAnimation * base = [CABasicAnimation animationWithKeyPath:@"position.x"];
+                base.beginTime = 0.f;
+                base.fillMode = kCAFillModeForwards;
+                base.removedOnCompletion = NO;
+                base.byValue = @(-self.frame.size.width * 2);
+                [base setDuration:2];
+                [base setRepeatCount:CGFLOAT_MAX];
+                [self.colorBg.layer addAnimation:base forKey:@"123213123"];
+            }
+        } else {
+            self.innerLabel.frame = CGRectMake(self.frame.size.width * 2, 0, self.frame.size.width, self.frame.size.height);
+            self.colorBg.frame = CGRectMake(-self.frame.size.width * 2, 0, self.frame.size.width * 4, self.frame.size.height);
+            
+            [self.innerLabel.layer removeAllAnimations];
+            [self.colorBg.layer removeAllAnimations];
+            
+            {
+                CABasicAnimation * base = [CABasicAnimation animationWithKeyPath:@"position.x"];
+                base.beginTime = 0.f;
+                base.fillMode = kCAFillModeForwards;
+                base.removedOnCompletion = NO;
+                base.byValue = @(-self.frame.size.width * 2);
+                [base setDuration:2];
+                [base setRepeatCount:CGFLOAT_MAX];
+                [self.innerLabel.layer addAnimation:base forKey:@"123213123"];
+            }
+            {
+                CABasicAnimation * base = [CABasicAnimation animationWithKeyPath:@"position.x"];
+                base.beginTime = 0.f;
+                base.fillMode = kCAFillModeForwards;
+                base.removedOnCompletion = NO;
+                base.byValue = @(self.frame.size.width * 2);
+                [base setDuration:2];
+                [base setRepeatCount:CGFLOAT_MAX];
+                [self.colorBg.layer addAnimation:base forKey:@"123213123"];
+            }
         }
+        
     } else {
         [self.innerLabel.layer removeAllAnimations];
         [self.colorBg.layer removeAllAnimations];

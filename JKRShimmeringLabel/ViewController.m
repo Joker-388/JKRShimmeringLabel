@@ -24,19 +24,42 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    BOOL isRTL = NO;
+    UIWindow *window = [UIApplication sharedApplication].delegate.window;
+    UISemanticContentAttribute attr = window.semanticContentAttribute;
+    UIUserInterfaceLayoutDirection layoutDirection = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
+    if (layoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
+        isRTL = YES;
+    }
+    
+    
+    UILabel *title0 = [UILabel new];
+    title0.text = @"Frame布局，炫彩流动，超出范围自动滚动";
+    title0.font = [UIFont systemFontOfSize:12];
+    title0.textColor = [UIColor blackColor];
+    title0.frame = CGRectMake(10, 100, kScreenWidth - 20, 15);
+    [self.view addSubview:title0];
     
     // Frame布局，字体支持炫彩闪动，同时超出显示范围自动滚动
     NSMutableAttributedString *textForFrameAttr = [[NSMutableAttributedString alloc] initWithString:@"我是滚动测试文本Frame布局，看看我的效果" attributes:@{NSForegroundColorAttributeName: UIColorHex(FFFFFF), NSFontAttributeName: [UIFont systemFontOfSize:19 weight:UIFontWeightBold]}];
-    self.autoScrollLabelForFrame = [[JKRAutoScrollLabel alloc] initWithFrame:CGRectMake(10, 100, 300, 24)];
+    self.autoScrollLabelForFrame = [[JKRAutoScrollLabel alloc] initWithFrame:CGRectMake(isRTL ? kScreenWidth - 10 - 300 : 10, CGRectGetMaxY(title0.frame) + 10, 300, 24)];
     // 滚动文本需要设置 attributedText 才能生效
     self.autoScrollLabelForFrame.attributedText = textForFrameAttr;
     // 设置文字颜色的mask图片遮罩，如果不需要字体炫彩，不设置即可
     self.autoScrollLabelForFrame.mask = [self maskImage];
     [self.view addSubview:self.autoScrollLabelForFrame];
+    
+    
+    UILabel *title1 = [UILabel new];
+    title1.text = @"Frame布局，炫彩流动，超出范围省略显示";
+    title1.font = [UIFont systemFontOfSize:12];
+    title1.textColor = [UIColor blackColor];
+    title1.frame = CGRectMake(10, CGRectGetMaxY(self.autoScrollLabelForFrame.frame) + 10, kScreenWidth - 20, 15);
+    [self.view addSubview:title1];
 
     // Frame布局，字体支持炫彩闪动
-    self.shimmerLabelForFrame = [[JKRShimmeringLabel alloc] initWithFrame:CGRectMake(10, 150, 300, 24)];
-    self.shimmerLabelForFrame.text = @"我是彩色不滚动文本Frame布局";
+    self.shimmerLabelForFrame = [[JKRShimmeringLabel alloc] initWithFrame:CGRectMake(isRTL ? kScreenWidth - 10 - 300 : 10, CGRectGetMaxY(title1.frame) + 10, 300, 24)];
+    self.shimmerLabelForFrame.text = @"我是彩色不滚动文本Frame布局，看看我的效果";
     self.shimmerLabelForFrame.font = [UIFont systemFontOfSize:19];
     // 设置文字颜色的mask图片遮罩，如果不需要字体炫彩，不设置即可
     self.shimmerLabelForFrame.mask = [self maskImage];
