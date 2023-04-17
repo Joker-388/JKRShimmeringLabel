@@ -72,6 +72,8 @@
 }
 
 - (void)startScroll {
+    NSLog(@"[JA] %@ startScroll", self);
+    
     if (self.hasLayout == NO || self.needReset == NO) {
         if (self.playingLabels.count) {
             [self.playingLabels enumerateObjectsUsingBlock:^(JKRShimmeringLabel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -85,8 +87,10 @@
     
     if (self.timer) {
         [self.timer invalidate];
+        self.timer = nil;
     }
-    [self removeAllSubviews];
+
+    [_scrollView removeFromSuperview];
     _scrollView = nil;
     [self.playingLabels removeAllObjects];
     
@@ -152,12 +156,15 @@
 }
 
 - (void)endScroll {
+    NSLog(@"[JA] %@ endScroll", self);
     if (self.timer) {
         [self.timer invalidate];
         self.timer = nil;
     }
-    _scrollView = nil;
+
     [_scrollView removeFromSuperview];
+    _scrollView = nil;
+    [self.playingLabels removeAllObjects];
     
     _scrollView = [UIScrollView new];
     _scrollView.backgroundColor = [UIColor clearColor];
@@ -183,6 +190,8 @@
             obj.transform = CGAffineTransformMakeRotation(M_PI);
         }];
     }
+    
+    self.needReset = YES;
 }
 
 - (BOOL)isRightToLeft {
@@ -258,6 +267,10 @@
         _playingLabels = [NSMutableArray array];
     }
     return _playingLabels;
+}
+
+- (void)dealloc {
+    NSLog(@"[JA] %@ dealloc", self);
 }
 
 @end
