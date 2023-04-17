@@ -4,7 +4,7 @@
 //
 //  Created by 胡怀刈 on 2022/12/7.
 //  Copyright © 2022 Soldier. All rights reserved.
-//  
+//
 
 #import "JKRShimmeringLabel.h"
 
@@ -73,17 +73,17 @@
         self.colorBg.hidden = NO;
         self.colorBg.image = _mask;
         
-        BOOL isRTL = NO;
-        UIWindow *window = [UIApplication sharedApplication].delegate.window;
-        if (window) {
-            UISemanticContentAttribute attr = window.semanticContentAttribute;
-            UIUserInterfaceLayoutDirection dir = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
-            if (dir == UIUserInterfaceLayoutDirectionRightToLeft) {
-                isRTL = YES;
-            }
-        }
+//        BOOL isRTL = NO;
+//        UIWindow *window = [UIApplication sharedApplication].delegate.window;
+//        if (window) {
+//            UISemanticContentAttribute attr = window.semanticContentAttribute;
+//            UIUserInterfaceLayoutDirection dir = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
+//            if (dir == UIUserInterfaceLayoutDirectionRightToLeft) {
+//                isRTL = YES;
+//            }
+//        }
 
-        if (isRTL) {
+        if ([self isRTL]) {
             self.innerLabel.frame = CGRectMake(self.frame.size.width, 0, self.frame.size.width, self.frame.size.height);
             self.colorBg.frame = CGRectMake(-self.frame.size.width, 0, self.frame.size.width * 4, self.frame.size.height);
             
@@ -146,6 +146,22 @@
         self.innerLabel.hidden = YES;
         self.colorBg.hidden = YES;
     }
+}
+
+- (BOOL)isRTL {
+    static BOOL isRTL = NO;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        UIWindow *window = [UIApplication sharedApplication].delegate.window;
+        if (window) {
+            UISemanticContentAttribute attr = window.semanticContentAttribute;
+            UIUserInterfaceLayoutDirection dir = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
+            if (dir == UIUserInterfaceLayoutDirectionRightToLeft) {
+                isRTL = YES;
+            }
+        }
+    });
+    return isRTL;
 }
 
 - (UILabel *)innerLabel {
