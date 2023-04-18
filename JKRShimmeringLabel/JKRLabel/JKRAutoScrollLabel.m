@@ -119,7 +119,7 @@
         _scrollView.contentSize = CGSizeMake(0, 0);
         [self.playingLabels addObject:textLabel];
         
-        if ([self isRightToLeft]) {
+        if ([self isRTL]) {
             _scrollView.transform = CGAffineTransformMakeRotation(M_PI);
             
             [_scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -140,7 +140,7 @@
         }
         _scrollView.contentSize = CGSizeMake((textSize.width + 30) * 2, 0);
         
-        if ([self isRightToLeft]) {
+        if ([self isRTL]) {
             _scrollView.transform = CGAffineTransformMakeRotation(M_PI);
 
             [_scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -183,7 +183,7 @@
     _scrollView.contentSize = CGSizeMake(0, 0);
     [self.playingLabels addObject:textLabel];
     
-    if ([self isRightToLeft]) {
+    if ([self isRTL]) {
         _scrollView.transform = CGAffineTransformMakeRotation(M_PI);
         
         [_scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -194,14 +194,20 @@
     self.needReset = YES;
 }
 
-- (BOOL)isRightToLeft {
-    UIWindow *window = [UIApplication sharedApplication].delegate.window;
-    if (!window) {
-        return UIUserInterfaceLayoutDirectionLeftToRight;
-    }
-    UISemanticContentAttribute attr = window.semanticContentAttribute;
-    UIUserInterfaceLayoutDirection dir = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
-    return dir == UIUserInterfaceLayoutDirectionRightToLeft;
+- (BOOL)isRTL {
+    static BOOL isRTL = NO;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        UIWindow *window = [UIApplication sharedApplication].delegate.window;
+        if (window) {
+            UISemanticContentAttribute attr = window.semanticContentAttribute;
+            UIUserInterfaceLayoutDirection dir = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:attr];
+            if (dir == UIUserInterfaceLayoutDirectionRightToLeft) {
+                isRTL = YES;
+            }
+        }
+    });
+    return isRTL;
 }
 
 - (void)autoScroll{
